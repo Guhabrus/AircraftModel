@@ -14,15 +14,7 @@
 ///< DEBUG
 #include "../Logs/Debug.h"
 
-class handle
-{
-    public:
-    static void key_callback(GLFWwindow* window , int key, [[maybe_unused]] int scancode, int action, [[maybe_unused]] int mode) //TODO убрать maybe_unused
-    {
-        if(key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-    	glfwSetWindowShouldClose(window, GL_TRUE);
-    }
-};
+#include "Handle/CallHandle.h"
 
 
 
@@ -43,6 +35,7 @@ Window::Window(GLuint width, GLuint height): _width(width), _height(height)
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);                      ///< Выключение возможности изменения размера окна
 
     _window_p = glfwCreateWindow(_width, _height, "Airbus A310", nullptr, nullptr);
+
     if(!(bool)_window_p){
         print_error(" Error open window\n");
         return;
@@ -59,7 +52,7 @@ Window::Window(GLuint width, GLuint height): _width(width), _height(height)
     }
 
     glViewport(0,0,_width, _height);
-    // glfwSetKeyCallback(_window_p, key_callback);                //TODO убрать maybe_unused
+    glfwSetKeyCallback(_window_p, CallHandler::key_callback);                //TODO убрать maybe_unused
 }
 
 
@@ -78,7 +71,6 @@ ERROR_WINDOW Window::run()
 
     return SUSSES;
 }
-
 
 
 

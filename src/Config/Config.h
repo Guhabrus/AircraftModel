@@ -19,6 +19,9 @@ class Config
         Config *conf;
         
     public:
+        Config(){}
+
+        virtual ~Config(){}
 
     /**
      * @brief Get the Instance object
@@ -26,8 +29,6 @@ class Config
      * @return Config& 
      */
     static Config& getInstance();
-
-
 };
 
 #endif

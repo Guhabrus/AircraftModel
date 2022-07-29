@@ -23,6 +23,7 @@
 #include "../Model/Model.h"
 
 
+
 enum ERROR_WINDOW
 {
     SUSSES,
@@ -56,6 +57,11 @@ class Window
          */
         ERROR_WINDOW run();
 
+        GLFWwindow* getWindow(){
+            return _window_p;
+        }
+
+        
         virtual ~Window();
 };
 
