@@ -21,7 +21,6 @@ class Model
 
         virtual ~Model();
 
-
 };
 
 

@@ -20,7 +20,8 @@ void CallHandler::key_callback(GLFWwindow* window , int key, [[maybe_unused]] in
         switch (key)
         {
         case GLFW_KEY_ESCAPE:
-            CloseButton::processing(window);
+            // CloseButton::processing(window);
+            glfwSetWindowShouldClose(window, GL_TRUE);
             break;
         
         default:

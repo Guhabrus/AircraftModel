@@ -20,10 +20,15 @@
 
 // GLFW
 #include <GLFW/glfw3.h>
+
 #include "../Model/Model.h"
+#include "Observer/Observer.h"
 
 
-
+/**
+ * @brief 
+ * 
+ */
 enum ERROR_WINDOW
 {
     SUSSES,
@@ -35,7 +40,7 @@ enum ERROR_WINDOW
   @brief Класс окна  //TODO написать описание
   
  */
-class Window
+class Window : public Observer
 {
     private:
         GLuint _width, _height;
@@ -47,7 +52,7 @@ class Window
          * @param _width высота окна
          * @param _height ширина окна
          */
-        Window(GLuint _width, GLuint _height);
+        Window(GLuint width, GLuint height);
 
         /**
          * @brief 
@@ -61,6 +66,19 @@ class Window
             return _window_p;
         }
 
+        /**
+         * @brief 
+         * 
+         * @return true 
+         * @return false 
+         */
+        bool windowInit();
+
+        /**
+         * @brief 
+         * 
+         virtual */
+        void update();
         
         virtual ~Window();
 };
