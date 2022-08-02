@@ -28,19 +28,35 @@ Window::Window(Model* mdl):Observer()
     _width = Config::getInstance().get_width();
 }
 
+void Window::draw_triangle(const GLuint* ID_VAO, const GLuint* shaderProgram){
+  
+  
+
+    glUseProgram(*shaderProgram);
+    glBindVertexArray(*ID_VAO);
+    //glDrawArrays(GL_TRIANGLES, 0, 6);
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+}
 
 ERROR_WINDOW Window::run()
 {
     if(!windowInit()){
         return ERROR_INIT;
     }
-
+    
+    GLuint ID_VAO, shaderProgram;
+    test_func(&ID_VAO, &shaderProgram);
+    
+    
     while(!glfwWindowShouldClose(_window_p))
     {
         glfwPollEvents();                       ///< проверяет двженяи с клавиатуры
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
+
+        this->draw_triangle(&ID_VAO, &shaderProgram);
 
         glfwSwapBuffers(_window_p);
     }

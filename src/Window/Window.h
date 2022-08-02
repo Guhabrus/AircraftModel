@@ -75,6 +75,9 @@ class Window : public Observer
          */
         bool windowInit();
 
+
+        void draw_triangle(const GLuint* ID_VAO, const GLuint* shaderProgram);
+
         /**
          * @brief 
          * 
@@ -84,5 +87,7 @@ class Window : public Observer
         virtual ~Window();
 };
 
+
+void test_func(GLuint* ID_VAO, GLuint* shaderProgram);
 
 #endif
