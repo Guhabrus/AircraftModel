@@ -21,11 +21,8 @@
 
 class Observer
 {
-
-
-        
     public:
-        Observer(/* args */){}
+        Observer();
         virtual ~Observer(){}
 
         virtual void update() =0;

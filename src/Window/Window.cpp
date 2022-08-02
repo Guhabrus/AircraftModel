@@ -18,12 +18,11 @@
 #include "../Config/Config.h"
 
 
-Window::Window(GLuint width, GLuint height): _width(width), _height(height)
+Window::Window(Model* mdl):Observer()
 {
     print_debug("Start constructor Window\n");
 
-    Config::getInstance().set_height(height);
-    Config::getInstance().set_width(width);     //TODO убрать это сделать парсинг командной строки
+    this->_model = new Model(*mdl);
     
     _height = Config::getInstance().get_height();
     _width = Config::getInstance().get_width();
@@ -95,5 +94,7 @@ Window::~Window()
 {
     print_debug("destructor of Window\n");
     glfwTerminate();
+    if(!this->_model)
+        delete this->_model;
 }
 

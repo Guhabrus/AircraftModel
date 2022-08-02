@@ -45,6 +45,7 @@ class Window : public Observer
     private:
         GLuint _width, _height;
         GLFWwindow* _window_p;
+        Model* _model;
     public:
         /**
          * @brief Construct a new Window object
@@ -52,7 +53,7 @@ class Window : public Observer
          * @param _width высота окна
          * @param _height ширина окна
          */
-        Window(GLuint width, GLuint height);
+        Window(Model *mdl);
 
         /**
          * @brief 

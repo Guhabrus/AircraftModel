@@ -15,11 +15,11 @@
 class Model
 {
     public:
-        Model();
+        Model(){}
 
        // virtual void getInformation()=0;
 
-        virtual ~Model();
+        virtual ~Model(){}
 
 };
 

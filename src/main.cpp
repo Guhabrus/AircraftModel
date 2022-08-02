@@ -11,11 +11,18 @@
 
 
 #include "Window/Window.h"
+#include "Model/Model.h"
+#include "Config/Config.h"
 #include <iostream>
 #include <stdio.h>
 int main()
 {
-    Window win(800,600);
+    Config::getInstance().set_height(600);
+    Config::getInstance().set_width(800);     //TODO убрать это сделать парсинг командной строки
+
+
+    Model *model = new Model;
+    Window win(model);
     
     
     return win.run();
