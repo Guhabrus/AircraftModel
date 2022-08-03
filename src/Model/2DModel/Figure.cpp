@@ -37,67 +37,63 @@ Figure::Figure(): _VAO(0), _shaderProgram(0)
 
     print_debug("Start construct Figure\n");
     
+    
+}
+
+
+bool Figure::model_init()
+{
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);    // создаем вершинный шейдер
     
-    print_debug("1\n");
+    
     glShaderSource(vertexShader, 1, &vertexShaderSource, NULL); // привязываем код шейдера к объекту
-        print_debug("1.2\n");
     glCompileShader(vertexShader);      // скомпилируем его
 
-    print_debug("1\n");
 
     GLint success;          //проверка на удачную сборку шейдера
     GLchar infoLog[512];
     glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
 
-    print_debug("2\n");
     if(!success)
     {
         glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
         print_error("ERROR::SHADER::VERTEX::COMPILATION_FAILED\n %s\n", infoLog);
+        return false;
     }
 
-    print_debug("3\n");
 
     GLuint fragmentShader= glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
     glCompileShader(fragmentShader);
 
-    print_debug("4\n");
 
     glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
 
-    print_debug("5\n");
 
     if(!success)
     {
         glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
         print_error("ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n%s\n", infoLog);
+        return false;
     }
 
-    print_debug("6\n");
 
     this->_shaderProgram = glCreateProgram();   // создаем программу для работы шейдеров
     glAttachShader(this->_shaderProgram, vertexShader); // привязывем вершинный шейдер к программк 
     glAttachShader(this->_shaderProgram, fragmentShader); // привязывем фрагентый шейдер к программк 
     glLinkProgram(this->_shaderProgram);               // собираем программу
 
-    print_debug("7\n");
 
     glGetProgramiv(this->_shaderProgram, GL_LINK_STATUS, &success);
     if (!success) {
         glGetProgramInfoLog(this->_shaderProgram, 512, NULL, infoLog);
         print_error("ERROR::SHADER::PROGRAM::COMPILATION_FAILED\n%s\n",infoLog);
+        return false;
     }
 
-    print_debug("8\n");
 
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
-
-    print_debug("END construct Figure\n");
-   
-
 
     GLuint VBO, EBO;                 ///< ID буффера под фигуру
     glGenBuffers(1, &VBO);  /// генерируем буфера
@@ -119,12 +115,13 @@ Figure::Figure(): _VAO(0), _shaderProgram(0)
     glBindBuffer(GL_ARRAY_BUFFER, 0); // Note that this is allowed, the call to glVertexAttribPointer registered VBO as the currently bound vertex buffer object so afterwards we can safely unbind
     glBindVertexArray(0); // Unbind VAO (it's always a good thing to unbind any buffer/array to prevent strange bugs), remember: do NOT unbind the EBO, keep it bound to this VAO
 
+    return true;
+
     
 }
 
-
-
 void Figure::draw(){
+    
     glUseProgram(this->_shaderProgram);
     glBindVertexArray(this->_VAO);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

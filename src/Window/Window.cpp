@@ -18,7 +18,7 @@
 #include "../Config/Config.h"
 
 
-Window::Window(Model* mdl):Observer(), _model(mdl)
+Window::Window():Observer()
 {
     print_debug("Start constructor Window\n");
 
@@ -28,23 +28,17 @@ Window::Window(Model* mdl):Observer(), _model(mdl)
     _width = Config::getInstance().get_width();
 }
 
-void Window::draw_triangle(const GLuint* ID_VAO, const GLuint* shaderProgram){
-  
-  
 
-    glUseProgram(*shaderProgram);
-    glBindVertexArray(*ID_VAO);
-    //glDrawArrays(GL_TRIANGLES, 0, 6);
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-
-}
-
-ERROR_WINDOW Window::run()
+ERROR_WINDOW Window::run([[maybe_unused]] Model *mdl)
 {
-    if(!windowInit()){
-        return ERROR_INIT;
-    }
     
+    if(!windowInit()){
+        return ERROR_INIT_WINDOW;
+    }
+
+    if(mdl){
+        mdl->model_init();
+    }
     
     
     while(!glfwWindowShouldClose(_window_p))
@@ -54,7 +48,8 @@ ERROR_WINDOW Window::run()
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        this->_model->draw();    
+        if(mdl)
+            mdl->draw();    
 
         glfwSwapBuffers(_window_p);
     }

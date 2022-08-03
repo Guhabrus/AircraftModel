@@ -21,10 +21,12 @@ int main()
     Config::getInstance().set_width(800);     //TODO убрать это сделать парсинг командной строки
 
 
-    Figure triangle;
+    
 
-    Window win(&triangle);
     
+
+    Figure triangle;
+    Window win;
     
-    return win.run();
+    return win.run(&triangle);
 }

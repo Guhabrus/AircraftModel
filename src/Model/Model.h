@@ -18,6 +18,7 @@ class Model
         Model(){}
 
        virtual void draw()=0;
+       virtual bool model_init() = 0;
 
         virtual ~Model(){}
 

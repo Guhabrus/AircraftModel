@@ -38,6 +38,14 @@ class Figure: public Model
 
         void draw();
 
+        /**
+         * @brief 
+         * 
+         * @return true 
+         * @return false 
+         */
+        bool model_init();
+
         ~Figure(){}
 };
 
