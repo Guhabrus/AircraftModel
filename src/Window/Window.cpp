@@ -37,7 +37,8 @@ ERROR_WINDOW Window::run([[maybe_unused]] Model *mdl)
     }
 
     if(mdl){
-        mdl->model_init();
+        if(!mdl->model_init())
+            return ERROR_INIT_MODEL;
     }
     
     
