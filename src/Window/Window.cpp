@@ -18,11 +18,11 @@
 #include "../Config/Config.h"
 
 
-Window::Window(Model* mdl):Observer()
+Window::Window(Model* mdl):Observer(), _model(mdl)
 {
     print_debug("Start constructor Window\n");
 
-    this->_model = new Model(*mdl);
+    // this->_model = new Model(*mdl);
     
     _height = Config::getInstance().get_height();
     _width = Config::getInstance().get_width();
@@ -45,8 +45,6 @@ ERROR_WINDOW Window::run()
         return ERROR_INIT;
     }
     
-    GLuint ID_VAO, shaderProgram;
-    test_func(&ID_VAO, &shaderProgram);
     
     
     while(!glfwWindowShouldClose(_window_p))
@@ -56,7 +54,7 @@ ERROR_WINDOW Window::run()
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        this->draw_triangle(&ID_VAO, &shaderProgram);
+        this->_model->draw();    
 
         glfwSwapBuffers(_window_p);
     }
@@ -110,7 +108,7 @@ Window::~Window()
 {
     print_debug("destructor of Window\n");
     glfwTerminate();
-    if(!this->_model)
-        delete this->_model;
+    // if(!this->_model)
+    //     delete this->_model;
 }
 

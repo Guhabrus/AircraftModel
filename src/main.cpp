@@ -11,7 +11,7 @@
 
 
 #include "Window/Window.h"
-#include "Model/Model.h"
+#include "Model/2DModel/Figure.h"
 #include "Config/Config.h"
 #include <iostream>
 #include <stdio.h>
@@ -21,8 +21,9 @@ int main()
     Config::getInstance().set_width(800);     //TODO убрать это сделать парсинг командной строки
 
 
-    Model *model = new Model;
-    Window win(model);
+    Figure triangle;
+
+    Window win(&triangle);
     
     
     return win.run();
