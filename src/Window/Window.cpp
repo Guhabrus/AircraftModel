@@ -18,29 +18,38 @@
 #include "../Config/Config.h"
 
 
-Window::Window(Model* mdl):Observer()
+Window::Window():Observer()
 {
     print_debug("Start constructor Window\n");
 
-    this->_model = new Model(*mdl);
+    // this->_model = new Model(*mdl);
     
     _height = Config::getInstance().get_height();
     _width = Config::getInstance().get_width();
 }
 
 
-ERROR_WINDOW Window::run()
+ERROR_WINDOW Window::run([[maybe_unused]] Model *mdl)
 {
+    
     if(!windowInit()){
-        return ERROR_INIT;
+        return ERROR_INIT_WINDOW;
     }
 
+    if(mdl){
+        mdl->model_init();
+    }
+    
+    
     while(!glfwWindowShouldClose(_window_p))
     {
         glfwPollEvents();                       ///< проверяет двженяи с клавиатуры
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
+
+        if(mdl)
+            mdl->draw();    
 
         glfwSwapBuffers(_window_p);
     }
@@ -94,7 +103,7 @@ Window::~Window()
 {
     print_debug("destructor of Window\n");
     glfwTerminate();
-    if(!this->_model)
-        delete this->_model;
+    // if(!this->_model)
+    //     delete this->_model;
 }
 
