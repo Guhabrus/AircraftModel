@@ -24,13 +24,14 @@ class Figure: public Model
 {
     private:
         GLuint _VAO, _shaderProgram;
-
+        GLfloat* _vertices;
+        size_t N_vertex;
     public:
         /**
          * @brief Construct a new Figure object
          * 
          */
-        Figure();
+        Figure(GLfloat vertices[], size_t N);
         /**
          * @brief 
          * 

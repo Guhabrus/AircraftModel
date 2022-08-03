@@ -23,9 +23,14 @@ int main()
 
     
 
-    
+    GLfloat vertices[] = {  /// треугольник
+    0.5f,  0.5f, 0.0f,  // Верхний правый угол
+    0.5f, -0.5f, 0.0f,  // Нижний правый угол
+    -0.5f,  0.5f, 0.0f,  // Верхний левый угол
+  
+};  
 
-    Figure triangle;
+    Figure triangle(vertices, 9);
     Window win;
     
     return win.run(&triangle);

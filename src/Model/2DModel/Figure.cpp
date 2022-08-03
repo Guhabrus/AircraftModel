@@ -1,14 +1,14 @@
 #include "Figure.h"
 #include "../../Logs/Debug.h"
+#include <cstring>
 
 
-
-static GLfloat vertices[] = {  /// треугольник
-    0.5f,  0.5f, 0.0f,  // Верхний правый угол
-    0.5f, -0.5f, 0.0f,  // Нижний правый угол
-    -0.5f,  0.5f, 0.0f,  // Верхний левый угол
+// static GLfloat vertices[] = {  /// треугольник
+//     0.5f,  0.5f, 0.0f,  // Верхний правый угол
+//     0.5f, -0.5f, 0.0f,  // Нижний правый угол
+//     -0.5f,  0.5f, 0.0f,  // Верхний левый угол
   
-};  
+// };  
 
 static GLuint indices[] = {  // Note that we start from 0!
     0, 1, 3,  // First Triangle
@@ -32,11 +32,10 @@ const GLchar* fragmentShaderSource = "#version 330 core\n"
 
 
 
-Figure::Figure(): _VAO(0), _shaderProgram(0)
+Figure::Figure(GLfloat vertices[], size_t N): _VAO(0), _shaderProgram(0), _vertices(vertices), N_vertex(N)
 {
-
-    print_debug("Start construct Figure\n");
     
+    print_debug("Start construct Figure\n");
     
 }
 
@@ -104,7 +103,7 @@ bool Figure::model_init()
     glBindVertexArray(this->_VAO);
     
     glBindBuffer(GL_ARRAY_BUFFER, VBO); /// привязывем буфер к определенному типу
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*this->N_vertex, this->_vertices, GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
