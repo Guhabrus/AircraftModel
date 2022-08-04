@@ -23,9 +23,11 @@
 class Figure: public Model
 {
     private:
-        GLuint _VAO, _shaderProgram;
+        GLuint _VAO,_VBO, _EBO ,_shaderProgram;
         GLfloat* _vertices;
         size_t N_vertex;
+        GLuint _texture;
+        
     public:
         /**
          * @brief Construct a new Figure object
@@ -47,7 +49,13 @@ class Figure: public Model
          */
         bool model_init();
 
-        ~Figure(){}
+
+        /**
+         * @brief Set the texture object
+         * 
+         */
+        void gen_texture();
+        ~Figure();
 };
 
 

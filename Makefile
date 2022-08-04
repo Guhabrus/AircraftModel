@@ -7,7 +7,7 @@ CC = g++
 
 CFLAGS += -Wall -Wextra -Werror -std=c++17 
 
-LIBS += -lboost_program_options -lGLEW -lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl
+LIBS += -lboost_program_options -lGLEW -lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl -lSOIL
 
 
 BILD_DIR = obj/

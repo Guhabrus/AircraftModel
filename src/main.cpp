@@ -15,6 +15,8 @@
 #include "Config/Config.h"
 #include <iostream>
 #include <stdio.h>
+
+
 int main()
 {
     Config::getInstance().set_height(600);
@@ -23,14 +25,17 @@ int main()
 
     
 
-    GLfloat vertices[] = {  /// треугольник
-    0.5f,  0.5f, 0.0f,  // Верхний правый угол
-    0.5f, -0.5f, 0.0f,  // Нижний правый угол
-    -0.5f,  0.5f, 0.0f,  // Верхний левый угол
+   GLfloat vertices[] = {
+    // Позиции          // Цвета             // Текстурные координаты
+     0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // Верхний правый
+     0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // Нижний правый
+    -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // Нижний левый
+    -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // Верхний левый
+    };
   
-};  
+  
 
-    Figure triangle(vertices, 9);
+    Figure triangle(vertices, 32);
     Window win;
     
     return win.run(&triangle);
