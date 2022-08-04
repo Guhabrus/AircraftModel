@@ -123,19 +123,19 @@ bool Figure::model_init()
     glGenBuffers(1, &this->_VBO);  /// генерируем буфера
     glGenBuffers(1, &this->_EBO);
     
-     GLfloat vertices[] = {
-    // Позиции          // Цвета             // Текстурные координаты
-     0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // Верхний правый
-     0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // Нижний правый
-    -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // Нижний левый
-    -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // Верхний левый
-    };
+    //  GLfloat vertices[] = {
+    // // Позиции          // Цвета             // Текстурные координаты
+    //  0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // Верхний правый
+    //  0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // Нижний правый
+    // -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // Нижний левый
+    // -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // Верхний левый
+    // };
   
 
     glBindVertexArray(this->_VAO);
     
     glBindBuffer(GL_ARRAY_BUFFER, this->_VBO); /// привязывем буфер к определенному типу
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * this->N_vertex, this->_vertices, GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->_EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
@@ -173,8 +173,10 @@ void Figure::gen_texture()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     int width, height;
-    unsigned char* fon = SOIL_load_image("../../../model/Texture/container.jpg",&width, &height,0, SOIL_LOAD_RGB);
+    unsigned char* fon = SOIL_load_image("/home/maksim/Myfolder/Scince/C++/AircraftModel/model/Texture/container.jpg",&width, &height,0, SOIL_LOAD_RGB);
 
+    if(!fon)
+        print_error("Error load image\n");
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, fon);
     glGenerateMipmap(GL_TEXTURE_2D);
 
