@@ -16,7 +16,8 @@
 
 #include "Handle/CallHandle.h"
 #include "../Config/Config.h"
-
+#include "../Model/Shader/Shader.h"
+#include "../Model/Texture/Texture.h"
 
 Window::Window():Observer()
 {
@@ -36,13 +37,14 @@ ERROR_WINDOW Window::run([[maybe_unused]] Model *mdl)
         return ERROR_INIT_WINDOW;
     }
 
+
     if(mdl){
-        if(!mdl->model_init())
+        if(!mdl->init())
             return ERROR_INIT_MODEL;
     }
+
     
-    
-    while(!glfwWindowShouldClose(_window_p))
+    while(!glfwWindowShouldClose(this->_window_p))
     {
         glfwPollEvents();                       ///< проверяет двженяи с клавиатуры
 
@@ -52,7 +54,7 @@ ERROR_WINDOW Window::run([[maybe_unused]] Model *mdl)
         if(mdl)
             mdl->draw();    
 
-        glfwSwapBuffers(_window_p);
+        glfwSwapBuffers(this->_window_p);
     }
 
     return SUSSES;
@@ -72,7 +74,7 @@ bool Window::windowInit(){
 
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);                      ///< Выключение возможности изменения размера окна
 
-    _window_p = glfwCreateWindow(_width, _height, "Airbus A310", nullptr, nullptr);
+    this->_window_p = glfwCreateWindow(_width, _height, "Airbus A310", nullptr, nullptr);
 
     if(!(bool)_window_p){
         print_error(" Error open window\n");

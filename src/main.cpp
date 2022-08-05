@@ -13,25 +13,42 @@
 #include "Window/Window.h"
 #include "Model/2DModel/Figure.h"
 #include "Config/Config.h"
+#include "Model/Model.h"
+#include "Model/Texture/Texture.h"
+#include "Model/Shader/Shader.h"
+
 #include <iostream>
 #include <stdio.h>
+
+
 int main()
 {
     Config::getInstance().set_height(600);
     Config::getInstance().set_width(800);     //TODO убрать это сделать парсинг командной строки
-
+    Config::getInstance().setPathShader((GLchar*)"/home/maksim/Myfolder/Scince/C++/AircraftModel/src/Model/Shader/Source/Shader.vs",(GLchar*)"/home/maksim/Myfolder/Scince/C++/AircraftModel/src/Model/Shader/Source/Shader.frag");
+    Config::getInstance().setPathTexureImage((char*)"/home/maksim/Myfolder/Scince/C++/AircraftModel/model/Texture/container.jpg");
 
     
 
-    GLfloat vertices[] = {  /// треугольник
-    0.5f,  0.5f, 0.0f,  // Верхний правый угол
-    0.5f, -0.5f, 0.0f,  // Нижний правый угол
-    -0.5f,  0.5f, 0.0f,  // Верхний левый угол
+   GLfloat vertices[] = {
+    // Позиции          // Цвета             // Текстурные координаты
+     0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // Верхний правый
+     0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // Нижний правый
+    -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // Нижний левый
+    -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // Верхний левый
+    };
   
-};  
+  
 
-    Figure triangle(vertices, 9);
+    
+
+    
+
+    Model* triangle = new Texture(
+                            new Shader(
+                                new Figure(vertices, 32)));
+
     Window win;
     
-    return win.run(&triangle);
+    return win.run(triangle);
 }

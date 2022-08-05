@@ -1,6 +1,19 @@
+/**
+ * @file Figure.cpp
+ * @author your name (you@domain.com)
+ * @brief 
+ * @version 0.1
+ * @date 2022-08-04
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
+#include <SOIL/SOIL.h>
+#include "../../Config/Config.h"
 #include "Figure.h"
 #include "../../Logs/Debug.h"
 #include <cstring>
+
 
 
 // static GLfloat vertices[] = {  /// треугольник
@@ -16,23 +29,9 @@ static GLuint indices[] = {  // Note that we start from 0!
 };
 
 
-// Shaders
-const GLchar* vertexShaderSource = "#version 330 core\n"
-    "layout (location = 0) in vec3 position;\n"
-    "void main()\n"
-    "{\n"
-    "gl_Position = vec4(position.x, position.y, position.z, 1.0);\n"
-    "}\0";
-const GLchar* fragmentShaderSource = "#version 330 core\n"
-    "out vec4 color;\n"
-    "void main()\n"
-    "{\n"
-    "color = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-    "}\n\0";
 
 
-
-Figure::Figure(GLfloat vertices[], size_t N): _VAO(0), _shaderProgram(0), _vertices(vertices), N_vertex(N)
+Figure::Figure(GLfloat vertices[], size_t N): _VAO(0), _VBO(0), _EBO(0), _vertices(vertices), N_vertex(N)
 {
     
     print_debug("Start construct Figure\n");
@@ -40,88 +39,56 @@ Figure::Figure(GLfloat vertices[], size_t N): _VAO(0), _shaderProgram(0), _verti
 }
 
 
-bool Figure::model_init()
+bool Figure::init()
 {
-    GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);    // создаем вершинный шейдер
     
-    
-    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL); // привязываем код шейдера к объекту
-    glCompileShader(vertexShader);      // скомпилируем его
+    print_debug("Class Figure - mothod init\n");
 
-
-    GLint success;          //проверка на удачную сборку шейдера
-    GLchar infoLog[512];
-    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-
-    if(!success)
-    {
-        glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-        print_error("ERROR::SHADER::VERTEX::COMPILATION_FAILED\n %s\n", infoLog);
-        return false;
-    }
-
-
-    GLuint fragmentShader= glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-    glCompileShader(fragmentShader);
-
-
-    glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-
-
-    if(!success)
-    {
-        glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-        print_error("ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n%s\n", infoLog);
-        return false;
-    }
-
-
-    this->_shaderProgram = glCreateProgram();   // создаем программу для работы шейдеров
-    glAttachShader(this->_shaderProgram, vertexShader); // привязывем вершинный шейдер к программк 
-    glAttachShader(this->_shaderProgram, fragmentShader); // привязывем фрагентый шейдер к программк 
-    glLinkProgram(this->_shaderProgram);               // собираем программу
-
-
-    glGetProgramiv(this->_shaderProgram, GL_LINK_STATUS, &success);
-    if (!success) {
-        glGetProgramInfoLog(this->_shaderProgram, 512, NULL, infoLog);
-        print_error("ERROR::SHADER::PROGRAM::COMPILATION_FAILED\n%s\n",infoLog);
-        return false;
-    }
-
-
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
-
-    GLuint VBO, EBO;                 ///< ID буффера под фигуру
-    glGenBuffers(1, &VBO);  /// генерируем буфера
-    glGenBuffers(1, &EBO);
     glGenVertexArrays(1, &this->_VAO);
-
+    glGenBuffers(1, &this->_VBO);  /// генерируем буфера
+    glGenBuffers(1, &this->_EBO);
     
+   
+
     glBindVertexArray(this->_VAO);
     
-    glBindBuffer(GL_ARRAY_BUFFER, VBO); /// привязывем буфер к определенному типу
-    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*this->N_vertex, this->_vertices, GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, this->_VBO); /// привязывем буфер к определенному типу
+    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * this->N_vertex, this->_vertices, GL_STATIC_DRAW);
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->_EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+   // Position attribute
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
     glEnableVertexAttribArray(0);
+    // Color attribute
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+    glEnableVertexAttribArray(1);
+    // TexCoord attribute
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
+    glEnableVertexAttribArray(2);
 
-    glBindBuffer(GL_ARRAY_BUFFER, 0); // Note that this is allowed, the call to glVertexAttribPointer registered VBO as the currently bound vertex buffer object so afterwards we can safely unbind
+    // glBindBuffer(GL_ARRAY_BUFFER, 0); // Note that this is allowed, the call to glVertexAttribPointer registered VBO as the currently bound vertex buffer object so afterwards we can safely unbind
     glBindVertexArray(0); // Unbind VAO (it's always a good thing to unbind any buffer/array to prevent strange bugs), remember: do NOT unbind the EBO, keep it bound to this VAO
 
     return true;
-
-    
 }
+
+
 
 void Figure::draw(){
     
-    glUseProgram(this->_shaderProgram);
+    print_debug("Class Figure - mothod draw\n");
     glBindVertexArray(this->_VAO);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    glBindVertexArray(0);
+}
+
+
+
+Figure::~Figure(){
+    glDeleteVertexArrays(1, &this->_VAO);
+    glDeleteBuffers(1, &this->_VBO);
+    glDeleteBuffers(1, &this->_EBO);
+
 }
