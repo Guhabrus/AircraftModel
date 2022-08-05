@@ -1,44 +1,48 @@
 /**
- * @file Figure.h
+ * @file Shader.h
  * @author your name (you@domain.com)
  * @brief 
  * @version 0.1
- * @date 2022-08-02
+ * @date 2022-08-05
  * 
  * @copyright Copyright (c) 2022
  * 
  */
 
-#ifndef FIGURE_H
-#define FIGURE_H
-
-#include "../Model.h"
+#ifndef SHADER_H
+#define SHADER_H
 
 #define GLEW_STATIC
 #include <GL/glew.h>
 
 // GLFW
 #include <GLFW/glfw3.h>
+#include <string>
 
-class Figure: public Model
+#include "../Decorator/Decorator.h"
+#include "../Model.h"
+
+/**
+ * @brief 
+ * 
+ */
+class Shader : public Decorator
 {
     private:
-        GLuint _VAO,_VBO, _EBO;
-        GLfloat* _vertices;
-        size_t N_vertex;
-        GLuint _texture;
-        
+        GLuint _shaderProgram;
     public:
         /**
-         * @brief Construct a new Figure object
+         * @brief Construct a new Shader object
          * 
+         * @param vertexPath 
+         * @param fragmentPath 
          */
-        Figure(GLfloat vertices[], size_t N);
+        Shader(Model* mod);
+
         /**
          * @brief 
          * 
          */
-
         void draw();
 
         /**
@@ -49,7 +53,6 @@ class Figure: public Model
          */
         bool init();
 
-        ~Figure();
 };
 
 

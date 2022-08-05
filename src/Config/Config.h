@@ -21,18 +21,21 @@
 
 #include "../Window/Observer/Observer.h"
 #include <vector>
-
+/**
+ * @brief 
+ * 
+ */
 class Config
 {
     private:
         
         std::vector<Observer*> _lst_obsvr;
         GLuint _width, _height;
-        
+        GLchar* _vertexPath;
+        GLchar* _fragmentPath;
+        char* _pathToTexureImage;
     public:
         Config(){}
-        
-        
 
     /**
      * @brief Get the Instance object
@@ -91,6 +94,42 @@ class Config
      * @return GLuint 
      */
     GLuint get_width();
+
+    /**
+     * @brief Set the Path Shader object
+     * 
+     * @param vertexPath 
+     * @param fragmentPath 
+     */
+    void setPathShader( GLchar* vertexPath,  GLchar* fragmentPath);
+
+    /**
+     * @brief Get the Vertex Path object
+     * 
+     * @return GLchar* 
+     */
+    GLchar* getVertexPath();
+
+    /**
+     * @brief Get the Fragment Path object
+     * 
+     * @return GLchar* 
+     */
+    GLchar* getFragmentPath();
+
+   /**
+    * @brief Set the Path Texure Image object
+    * 
+    * @param PathToImage 
+    */
+    void setPathTexureImage(char* PathToImage);
+    
+    /**
+     * @brief Get the Path Texure Image object
+     * 
+     * @return char* 
+     */
+    char* getPathTexureImage();
 
     Config& operator=(Config&);
 

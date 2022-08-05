@@ -30,33 +30,8 @@ static GLuint indices[] = {  // Note that we start from 0!
 
 
 
-// Shaders
-const GLchar* vertexShaderSource = "#version 330 core\n"
-    "layout (location = 0) in vec3 position;\n"
-    "layout (location = 1) in vec3 color;\n"
-    "layout (location = 2) in vec2 texCoord;\n"
-    "out vec3 ourColor;\n"
-    "out vec2 TexCoord;\n"
-    "void main()\n"
-    "{\n"
-        "gl_Position = vec4(position, 1.0f);\n"
-        "ourColor = color;\n"
-        "TexCoord = texCoord;\n"
-    "}\0";
 
-const GLchar* fragmentShaderSource = "#version 330 core\n"
-"in vec3 ourColor;\n"
-"in vec2 TexCoord;\n"
-"out vec4 color;\n"
-"uniform sampler2D ourTexture;\n"
-"void main()\n"
-"{\n"
-"    color = texture(ourTexture, TexCoord);\n"
-"}\n\0";
-
-
-
-Figure::Figure(GLfloat vertices[], size_t N): _VAO(0), _VBO(0), _EBO(0), _shaderProgram(0), _vertices(vertices), N_vertex(N)
+Figure::Figure(GLfloat vertices[], size_t N): _VAO(0), _VBO(0), _EBO(0), _vertices(vertices), N_vertex(N)
 {
     
     print_debug("Start construct Figure\n");
@@ -64,73 +39,16 @@ Figure::Figure(GLfloat vertices[], size_t N): _VAO(0), _VBO(0), _EBO(0), _shader
 }
 
 
-bool Figure::model_init()
+bool Figure::init()
 {
-    GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);    // создаем вершинный шейдер
     
-    
-    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL); // привязываем код шейдера к объекту
-    glCompileShader(vertexShader);      // скомпилируем его
+    print_debug("Class Figure - mothod init\n");
 
-
-    GLint success;          //проверка на удачную сборку шейдера
-    GLchar infoLog[512];
-    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-
-    if(!success)
-    {
-        glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-        print_error("ERROR::SHADER::VERTEX::COMPILATION_FAILED\n %s\n", infoLog);
-        return false;
-    }
-
-
-    GLuint fragmentShader= glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-    glCompileShader(fragmentShader);
-
-
-    glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-
-
-    if(!success)
-    {
-        glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-        print_error("ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n%s\n", infoLog);
-        return false;
-    }
-
-
-    this->_shaderProgram = glCreateProgram();   // создаем программу для работы шейдеров
-    glAttachShader(this->_shaderProgram, vertexShader); // привязывем вершинный шейдер к программк 
-    glAttachShader(this->_shaderProgram, fragmentShader); // привязывем фрагентый шейдер к программк 
-    glLinkProgram(this->_shaderProgram);               // собираем программу
-
-
-    glGetProgramiv(this->_shaderProgram, GL_LINK_STATUS, &success);
-    if (!success) {
-        glGetProgramInfoLog(this->_shaderProgram, 512, NULL, infoLog);
-        print_error("ERROR::SHADER::PROGRAM::COMPILATION_FAILED\n%s\n",infoLog);
-        return false;
-    }
-
-
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
-
-    
     glGenVertexArrays(1, &this->_VAO);
     glGenBuffers(1, &this->_VBO);  /// генерируем буфера
     glGenBuffers(1, &this->_EBO);
     
-    //  GLfloat vertices[] = {
-    // // Позиции          // Цвета             // Текстурные координаты
-    //  0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // Верхний правый
-    //  0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // Нижний правый
-    // -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // Нижний левый
-    // -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // Верхний левый
-    // };
-  
+   
 
     glBindVertexArray(this->_VAO);
     
@@ -153,48 +71,17 @@ bool Figure::model_init()
     // glBindBuffer(GL_ARRAY_BUFFER, 0); // Note that this is allowed, the call to glVertexAttribPointer registered VBO as the currently bound vertex buffer object so afterwards we can safely unbind
     glBindVertexArray(0); // Unbind VAO (it's always a good thing to unbind any buffer/array to prevent strange bugs), remember: do NOT unbind the EBO, keep it bound to this VAO
 
-    this->gen_texture();
-
     return true;
-
-    
 }
 
 
-void Figure::gen_texture()
-{
-    glGenTextures(1, &this->_texture);                 // создание ID текстуры
-    glBindTexture(GL_TEXTURE_2D, this->_texture);      // привязка текстуры к фигуре
-    
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    int width, height;
-    unsigned char* fon = SOIL_load_image("/home/maksim/Myfolder/Scince/C++/AircraftModel/model/Texture/container.jpg",&width, &height,0, SOIL_LOAD_RGB);
-
-    if(!fon)
-        print_error("Error load image\n");
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, fon);
-    glGenerateMipmap(GL_TEXTURE_2D);
-
-    SOIL_free_image_data(fon);
-    glBindTexture(GL_TEXTURE_2D, 0);
-
-    
-
-
-}
 
 void Figure::draw(){
-    glBindTexture(GL_TEXTURE_2D, this->_texture);
-    glUseProgram(this->_shaderProgram);
+    
+    print_debug("Class Figure - mothod draw\n");
     glBindVertexArray(this->_VAO);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
-
 }
 
 

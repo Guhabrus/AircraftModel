@@ -16,7 +16,8 @@
 
 #include "Handle/CallHandle.h"
 #include "../Config/Config.h"
-
+#include "../Model/Shader/Shader.h"
+#include "../Model/Texture/Texture.h"
 
 Window::Window():Observer()
 {
@@ -36,11 +37,12 @@ ERROR_WINDOW Window::run([[maybe_unused]] Model *mdl)
         return ERROR_INIT_WINDOW;
     }
 
+
     if(mdl){
-        if(!mdl->model_init())
+        if(!mdl->init())
             return ERROR_INIT_MODEL;
     }
-    
+
     
     while(!glfwWindowShouldClose(this->_window_p))
     {

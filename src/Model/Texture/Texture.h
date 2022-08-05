@@ -1,18 +1,16 @@
 /**
- * @file Figure.h
+ * @file Texture.h
  * @author your name (you@domain.com)
  * @brief 
  * @version 0.1
- * @date 2022-08-02
+ * @date 2022-08-05
  * 
  * @copyright Copyright (c) 2022
  * 
  */
 
-#ifndef FIGURE_H
-#define FIGURE_H
-
-#include "../Model.h"
+#ifndef TEXTURE_H
+#define TEXTURE_H
 
 #define GLEW_STATIC
 #include <GL/glew.h>
@@ -20,26 +18,23 @@
 // GLFW
 #include <GLFW/glfw3.h>
 
-class Figure: public Model
+#include "../Model.h"
+#include "../Decorator/Decorator.h"
+
+/**
+ * @brief 
+ * 
+ */
+class Texture:public Decorator
 {
     private:
-        GLuint _VAO,_VBO, _EBO;
-        GLfloat* _vertices;
-        size_t N_vertex;
         GLuint _texture;
-        
     public:
         /**
-         * @brief Construct a new Figure object
+         * @brief Construct a new Texture object
          * 
          */
-        Figure(GLfloat vertices[], size_t N);
-        /**
-         * @brief 
-         * 
-         */
-
-        void draw();
+        Texture(Model* mod);
 
         /**
          * @brief 
@@ -49,8 +44,11 @@ class Figure: public Model
          */
         bool init();
 
-        ~Figure();
+        /**
+         * @brief 
+         * 
+         */
+        void draw();
 };
-
 
 #endif
