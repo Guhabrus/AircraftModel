@@ -46,7 +46,7 @@ int main()
 
     Model* triangle = new Texture(
                             new Shader(
-                                new Figure(vertices, 32)));
+                                new Figure(vertices, sizeof(vertices))));
 
     Window win;
     

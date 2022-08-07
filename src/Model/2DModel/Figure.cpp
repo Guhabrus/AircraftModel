@@ -31,7 +31,7 @@ static GLuint indices[] = {  // Note that we start from 0!
 
 
 
-Figure::Figure(GLfloat vertices[], size_t N): _VAO(0), _VBO(0), _EBO(0), _vertices(vertices), N_vertex(N)
+Figure::Figure(GLfloat vertices[], unsigned long size): _VAO(0), _VBO(0), _EBO(0), _vertices(vertices), _size(size)
 {
     
     print_debug("Start construct Figure\n");
@@ -53,7 +53,7 @@ bool Figure::init()
     glBindVertexArray(this->_VAO);
     
     glBindBuffer(GL_ARRAY_BUFFER, this->_VBO); /// привязывем буфер к определенному типу
-    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * this->N_vertex, this->_vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, this->_size, this->_vertices, GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->_EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);

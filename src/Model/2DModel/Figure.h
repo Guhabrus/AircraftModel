@@ -25,7 +25,7 @@ class Figure: public Model
     private:
         GLuint _VAO,_VBO, _EBO;
         GLfloat* _vertices;
-        size_t N_vertex;
+        unsigned long _size;
         GLuint _texture;
         
     public:
