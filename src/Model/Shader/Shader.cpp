@@ -20,7 +20,7 @@ Shader::Shader(Model* mod):Decorator(mod){}
 
 
 void Shader::draw(){
-    print_debug("Class Shader - method draw\n");
+    
     Decorator::draw();
     glUseProgram(this->_shaderProgram);
 }

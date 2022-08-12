@@ -14,10 +14,21 @@
 #define DECORATOR_H
 #include "../Model.h"
 
+#define GLEW_STATIC
+#include <GL/glew.h>
+
+// GLFW
+#include <GLFW/glfw3.h>
+
 class Decorator : public Model
 {
     private:
         Model* _model;
+
+    protected:
+        GLuint _shaderProgram;
+        unsigned int _VAO, _VBO, _EBO;
+
     public:
         Decorator(Model* mod);
         

@@ -78,7 +78,7 @@ bool Figure::init()
 
 void Figure::draw(){
     
-    print_debug("Class Figure - mothod draw\n");
+    
     glBindVertexArray(this->_VAO);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);

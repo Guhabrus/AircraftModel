@@ -48,7 +48,7 @@ bool Texture::init()
 }
 
 void Texture::draw(){
-    print_debug("Class Texture - method draw\n");
+    
     Decorator::draw();
     glBindTexture(GL_TEXTURE_2D, this->_texture);
 }

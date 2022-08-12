@@ -28,8 +28,8 @@
  */
 class Shader : public Decorator
 {
-    private:
-        GLuint _shaderProgram;
+ 
+        
     public:
         /**
          * @brief Construct a new Shader object
