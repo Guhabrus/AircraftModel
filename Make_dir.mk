@@ -13,3 +13,4 @@ CFILES += $(SRC_DIR)Model/Shader/Shader.cpp
 CFILES += $(SRC_DIR)Model/Decorator/Decorator.cpp
 CFILES += $(SRC_DIR)Model/Mesh/Mesh.cpp
 CFILES += $(SRC_DIR)Model/3DModel/3DModel.cpp
+CFILES += $(SRC_DIR)/glad/src/glad.c

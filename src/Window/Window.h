@@ -12,18 +12,20 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
-#include <iostream>
 
-// GLEW
-#define GLEW_STATIC
-#include <GL/glew.h>
+
+// //GLEW
+// #define GLEW_STATIC
+// #include <GL/glew.h>
+
+#include "../glad/include/glad/glad.h"
 
 // GLFW
 #include <GLFW/glfw3.h>
 
 #include "../Model/Model.h"
 #include "Observer/Observer.h"
-
+#include <iostream>
 
 /**
  * @brief 

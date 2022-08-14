@@ -20,6 +20,7 @@
 #include "../Model/Shader/Shader.h"
 
 
+
 Window::Window():Observer()
 {
     print_debug("Start constructor Window\n");
