@@ -59,3 +59,30 @@ GLuint Config::get_height(){
 GLuint Config::get_width(){
     return getInstance()._width;
 }
+
+
+
+void Config::setPathShader( GLchar* vertexPath,  GLchar* fragmentPath){
+    this->getInstance()._vertexPath   = vertexPath;
+    this->getInstance()._fragmentPath = fragmentPath;
+}
+
+
+
+GLchar* Config::getFragmentPath(){
+    return this->getInstance()._fragmentPath;
+}
+
+GLchar* Config::getVertexPath(){
+    return this->getInstance()._vertexPath;
+}
+
+
+void Config::setPathTexureImage(char* PathToImage){
+    this->getInstance()._pathToTexureImage = PathToImage;
+}
+
+
+char* Config::getPathTexureImage(){
+    return this->getInstance()._pathToTexureImage;
+}

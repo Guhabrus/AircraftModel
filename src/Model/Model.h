@@ -12,12 +12,14 @@
 #ifndef MODEL_H
 #define MODEL_H
 
+
 class Model
 {
     public:
         Model(){}
 
-       // virtual void getInformation()=0;
+        virtual void draw()=0;
+        virtual bool init() = 0;
 
         virtual ~Model(){}
 

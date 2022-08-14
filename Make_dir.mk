@@ -4,7 +4,10 @@ SRC_DIR = src/
 
 # Компоненты для вызова окна
 CFILES += $(SRC_DIR)Window/Window.cpp
+CFILES += $(SRC_DIR)Model/2DModel/Figure.cpp
 CFILES += $(SRC_DIR)Config/Config.cpp
-CFILES += $(SRC_DIR)Window/Handle/Handle.cpp
 CFILES += $(SRC_DIR)Window/Handle/CallHandler.cpp
 CFILES += $(SRC_DIR)Window/Observer/Observer.cpp
+CFILES += $(SRC_DIR)Model/Shader/Shader.cpp
+CFILES += $(SRC_DIR)Model/Texture/Texture.cpp
+CFILES +=$(SRC_DIR)Model/Decorator/Decorator.cpp

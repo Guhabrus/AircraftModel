@@ -32,8 +32,9 @@
 enum ERROR_WINDOW
 {
     SUSSES,
-    ERROR_INIT,
-    ERROR_CREATE_WINDOW
+    ERROR_INIT_WINDOW,
+    ERROR_CREATE_WINDOW,
+    ERROR_INIT_MODEL
 };
 
 /*!
@@ -45,7 +46,7 @@ class Window : public Observer
     private:
         GLuint _width, _height;
         GLFWwindow* _window_p;
-        Model* _model;
+        // Model* _model;
     public:
         /**
          * @brief Construct a new Window object
@@ -53,7 +54,7 @@ class Window : public Observer
          * @param _width высота окна
          * @param _height ширина окна
          */
-        Window(Model *mdl);
+        Window();
 
         /**
          * @brief 
@@ -61,7 +62,7 @@ class Window : public Observer
          * @param model 
          * @return ERROR_WINDOW 
          */
-        ERROR_WINDOW run();
+        ERROR_WINDOW run([[maybe_unused]] Model *mdl);
 
         GLFWwindow* getWindow(){
             return _window_p;
@@ -75,6 +76,9 @@ class Window : public Observer
          */
         bool windowInit();
 
+
+        void draw_triangle(const GLuint* ID_VAO, const GLuint* shaderProgram);
+
         /**
          * @brief 
          * 
@@ -84,5 +88,7 @@ class Window : public Observer
         virtual ~Window();
 };
 
+
+void test_func(GLuint* ID_VAO, GLuint* shaderProgram);
 
 #endif
