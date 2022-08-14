@@ -17,7 +17,7 @@
 #include <string>
 #include <sstream>
 
-Mesh::Mesh(Model* mod)
+Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures):_vertices(vertices), _indices(indices), _textures(textures)
 {
 
 }
@@ -64,7 +64,7 @@ bool Mesh::init()
 
 
 
-void Mesh::draw(){
+void Mesh::draw(Shader shad){
 
     unsigned int diffuseNr = 1;
     unsigned int specularNr = 1;
@@ -82,7 +82,7 @@ void Mesh::draw(){
             ss << specularNr++; // передаем unsigned int в stream
         number = ss.str(); 
 
-        glUniform1f(glGetUniformLocation(this->_shaderProgram, ("material." + name + number).c_str()), i); 
+        glUniform1f(glGetUniformLocation(shad.getShaderProgram(), ("material." + name + number).c_str()), i); 
         glBindTexture(GL_TEXTURE_2D, this->_textures[i].id);     
     }
     glActiveTexture(GL_TEXTURE0);

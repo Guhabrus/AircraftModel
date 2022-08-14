@@ -22,6 +22,7 @@
 #include "../Model.h"
 #include "../Mesh/Mesh.h"
 #include "../Mesh/MeshData.h"
+#include "../Mesh/Mesh.h"
 
 class Model3D:public Model
 {
@@ -46,7 +47,7 @@ class Model3D:public Model
          * @param mesh 
          * @param scene 
          */
-        void processMesh(aiMesh *mesh, const aiScene *scene);
+        Mesh processMesh(aiMesh *mesh, const aiScene *scene);
 
 
         /**
@@ -67,7 +68,7 @@ class Model3D:public Model
          * @param gamma 
          * @return unsigned int 
          */
-        unsigned int TextureFromFile(const char *path, const std::string &directory, bool gamma);
+        unsigned int TextureFromFile(const char *path, const std::string &directory);
 
 
     public:

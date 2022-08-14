@@ -17,15 +17,16 @@
 
 #include "MeshData.h"
 
-#include "../Decorator/Decorator.h"
+#include "../Shader/Shader.h"
 
 class Mesh
 {
     private:
         std::vector<Vertex>  _vertices;
-        std::vector<Texture> _textures;
         std::vector<unsigned int> _indices;
-
+        std::vector<Texture> _textures;
+        
+        unsigned int _VAO, _VBO, _EBO;
     public:
 
         /**
@@ -33,7 +34,7 @@ class Mesh
          * 
          * @param mod 
          */
-        Mesh(Model* mod);
+        Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures);
 
         /**
          * @brief 
@@ -47,7 +48,7 @@ class Mesh
          * @brief 
          * 
          */
-        void draw();
+        void draw(Shader shad);
         
 
 };

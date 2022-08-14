@@ -27,7 +27,7 @@ class Decorator : public Model
 
     protected:
         GLuint _shaderProgram;
-        unsigned int _VAO, _VBO, _EBO;
+        
 
     public:
         Decorator(Model* mod);

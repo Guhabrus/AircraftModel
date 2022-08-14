@@ -12,7 +12,7 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-
+#include <stb/stb_image.h>
 
 #include <map>
 
@@ -20,6 +20,7 @@
 
 
 #include "3DModel.h"
+
 #include "../../Logs/Debug.h"
 
 enum errors_model
@@ -68,12 +69,12 @@ void Model3D::processNode(aiNode *node, const aiScene *scene)
     for(size_t i =0;i<node->mNumMeshes; ++i)
     {
         aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-        //TODO  this->_meshes.push_back(mesh)
+        this->_meshes.push_back(this->processMesh(mesh, scene));
     }
 }
 
 
-void Model3D::processMesh(aiMesh *mesh, const aiScene *scene)
+Mesh Model3D::processMesh(aiMesh *mesh, const aiScene *scene)
 {
     // data to fill
     std::vector<Vertex> vertices;
@@ -189,7 +190,7 @@ std::vector<Texture> Model3D::loadMaterialTextures(aiMaterial *mat, aiTextureTyp
     return textures;
 }
 
-unsigned int Model3D::TextureFromFile(const char *path, const std::string &directory, bool gamma)
+unsigned int Model3D::TextureFromFile(const char *path, const std::string &directory)
 {
     std::string filename = std::string(path);
     filename = directory + '/' + filename;
@@ -222,7 +223,7 @@ unsigned int Model3D::TextureFromFile(const char *path, const std::string &direc
     }
     else
     {
-        std::cout << "Texture failed to load at path: " << path << std::endl;
+        print_error("Texture failed to load at path: %s \n", path);
         stbi_image_free(data);
     }
 

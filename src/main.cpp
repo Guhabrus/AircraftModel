@@ -14,7 +14,7 @@
 
 #include "Config/Config.h"
 #include "Model/Model.h"
-#include "Model/Texture/Texture.h"
+
 #include "Model/Shader/Shader.h"
 #include "Model/3DModel/3DModel.h"
 
@@ -36,9 +36,8 @@ int main()
 
     
 
-    Model* triangle = new Texture(
-                            new Shader(
-                                new Model3D("/home/maksim/Myfolder/Scince/C++/AircraftModel/model/AirplaneA310/11803_Airplane_v1_l1.obj")  ));
+    Model* triangle =   new Shader(
+                                new Model3D("/home/maksim/Myfolder/Scince/C++/AircraftModel/model/AirplaneA310/11803_Airplane_v1_l1.obj")  );
                                 
 
     Window win;

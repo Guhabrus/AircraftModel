@@ -18,7 +18,7 @@
 #include "Handle/CallHandle.h"
 #include "../Config/Config.h"
 #include "../Model/Shader/Shader.h"
-#include "../Model/Texture/Texture.h"
+
 
 Window::Window():Observer()
 {

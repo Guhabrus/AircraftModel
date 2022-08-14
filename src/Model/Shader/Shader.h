@@ -64,6 +64,10 @@ class Shader : public Decorator
          */
         bool check_shader_errors(GLuint shaider, std::string type);
 
+        GLuint getShaderProgram(){
+            return this->_shaderProgram;
+        }
+
 };
 
 
