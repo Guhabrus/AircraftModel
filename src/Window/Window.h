@@ -47,6 +47,13 @@ class Window : public Observer
         GLuint _width, _height;
         GLFWwindow* _window_p;
         // Model* _model;
+
+        /**
+         * @brief 
+         * 
+         */
+        void reshape();
+
     public:
         /**
          * @brief Construct a new Window object

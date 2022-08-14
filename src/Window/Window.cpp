@@ -51,6 +51,7 @@ ERROR_WINDOW Window::run([[maybe_unused]] Model *mdl)
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
+    
         if(mdl)
             mdl->draw();    
 
@@ -97,8 +98,8 @@ bool Window::windowInit(){
     return true;
 }
 
-void Window::update(){
-    //TODO дописать реализацию   
+void Window::update(){      //TODO добавить проверОчку
+    this->reshape();
 }
 
 
@@ -110,3 +111,18 @@ Window::~Window()
     //     delete this->_model;
 }
 
+
+
+void Window::reshape(){
+    glViewport(0,0,Config::getInstance().get_width(), Config::getInstance().get_height());
+    glMatrixMode(GL_PROJECTION);
+
+    glLoadIdentity();
+
+    glOrtho(0, 400, 0, 700, -1.0, 1.0);
+    glMatrixMode(GL_MODELVIEW);
+
+    glLoadIdentity();
+
+    return ;
+}
