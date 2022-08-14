@@ -31,5 +31,18 @@ void CallHandler::key_callback(GLFWwindow* window , int key, [[maybe_unused]] in
     }
 }
 
+void CallHandler::mouse_callback([[maybe_unused]] GLFWwindow* window, [[maybe_unused]] double xpoxInm, [[maybe_unused]] double yposIn)
+{
+
+}
 
 
+void CallHandler::scroll_callback([[maybe_unused]] GLFWwindow* windowm,[[maybe_unused]] double xOffset,[[maybe_unused]] double yOffset)
+{
+
+}
+
+void CallHandler::framebuffer_size_callback([[maybe_unused]] GLFWwindow* window,[[maybe_unused]] int width, [[maybe_unused]] int height)
+{
+
+}

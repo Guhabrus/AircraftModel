@@ -19,7 +19,7 @@
 
 #include "../Decorator/Decorator.h"
 
-class Mesh:public Decorator
+class Mesh
 {
     private:
         std::vector<Vertex>  _vertices;

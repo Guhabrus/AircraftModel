@@ -17,7 +17,7 @@
 #include <string>
 #include <sstream>
 
-Mesh::Mesh(Model* mod):Decorator(mod)
+Mesh::Mesh(Model* mod)
 {
 
 }

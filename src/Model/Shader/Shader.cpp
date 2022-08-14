@@ -19,6 +19,36 @@
 Shader::Shader(Model* mod):Decorator(mod){}
 
 
+bool Shader::check_shader_errors(GLuint shader, std::string type)
+{
+    
+    GLint success;
+    GLchar infoLog[1024];
+    if (type != "PROGRAM")
+    {
+        glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+        if (!success)
+        {
+            glGetShaderInfoLog(shader, 1024, NULL, infoLog);
+            print_error("ERROR::SHADER_COMPILATION_ERROR of type:%s - %s\n",type.c_str(),infoLog);
+            return false;
+        }
+    }
+    else
+    {
+        glGetProgramiv(shader, GL_LINK_STATUS, &success);
+        if (!success)
+        {
+            glGetProgramInfoLog(shader, 1024, NULL, infoLog);
+            print_error("ERROR::PROGRAM_LINKING_ERROR of type: %s - %s\n", type.c_str(),infoLog );
+            return false;
+        }
+    }
+    return true;
+}
+    
+
+
 void Shader::draw(){
     
     Decorator::draw();
@@ -35,8 +65,8 @@ bool Shader::init()
     std::ifstream vShaderFile, fShaderFile;         ///< потоки считывания
     std::string vShaderCodeSourse, fShaderCodeSoursr;           ///< исходный код шейдеров
 
-    vShaderFile.exceptions(std::ifstream::badbit);
-    fShaderFile.exceptions(std::ifstream::badbit);
+    vShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+    fShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
 
     try
     {
@@ -67,12 +97,12 @@ bool Shader::init()
     
     glShaderSource(vertexShader, 1, &vShaderCode, NULL); // привязываем код шейдера к объекту
     glCompileShader(vertexShader);      // скомпилируем его
-
+    
 
     GLint success;          //проверка на удачную сборку шейдера
     GLchar infoLog[512];
     glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-
+    
     if(!success)
     {
         glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
@@ -81,13 +111,12 @@ bool Shader::init()
     }
 
 
+
     GLuint fragmentShader= glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragmentShader, 1, &fShaderCode, NULL);
     glCompileShader(fragmentShader);
 
-
     glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-
 
     if(!success)
     {
@@ -95,6 +124,7 @@ bool Shader::init()
         print_error("ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n%s\n", infoLog);
         return false;
     }
+
 
 
     this->_shaderProgram = glCreateProgram();   // создаем программу для работы шейдеров

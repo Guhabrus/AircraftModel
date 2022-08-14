@@ -9,6 +9,7 @@
  * 
  */
 
+
 #include "Window.h"
 
 ///< DEBUG
@@ -84,7 +85,7 @@ bool Window::windowInit(){
     glfwMakeContextCurrent(_window_p);
 
     //Инициализация GLEW
-    glewExperimental = GL_TRUE;
+    // glewExperimental = GL_TRUE;
 
     if(glewInit()){
         print_error("Error inicialization glew\n");
@@ -92,7 +93,19 @@ bool Window::windowInit(){
     }
 
     glViewport(0,0,_width, _height);
+    
     glfwSetKeyCallback(_window_p, CallHandler::key_callback);                //TODO убрать maybe_unused
+    glfwSetFramebufferSizeCallback(_window_p, CallHandler::framebuffer_size_callback);
+    glfwSetCursorPosCallback(_window_p, CallHandler::mouse_callback);
+    glfwSetScrollCallback(_window_p, CallHandler::scroll_callback);
+
+    glfwSetInputMode(this->_window_p, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+    GLenum log = glGetError();
+    if(log){
+        print_error(" GLU ERROR - %d\n", log);
+        return false;
+    }
 
     return true;
 }

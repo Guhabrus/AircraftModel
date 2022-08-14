@@ -11,11 +11,12 @@
 
 
 #include "Window/Window.h"
-#include "Model/2DModel/Figure.h"
+
 #include "Config/Config.h"
 #include "Model/Model.h"
 #include "Model/Texture/Texture.h"
 #include "Model/Shader/Shader.h"
+#include "Model/3DModel/3DModel.h"
 
 #include <iostream>
 #include <stdio.h>
@@ -30,15 +31,6 @@ int main()
 
     
 
-   GLfloat vertices[] = {
-    // Позиции          // Цвета             // Текстурные координаты
-     0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // Верхний правый
-     0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // Нижний правый
-    -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // Нижний левый
-    -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // Верхний левый
-    };
-  
-  
 
     
 
@@ -46,7 +38,8 @@ int main()
 
     Model* triangle = new Texture(
                             new Shader(
-                                new Figure(vertices, sizeof(vertices))));
+                                new Model3D("/home/maksim/Myfolder/Scince/C++/AircraftModel/model/AirplaneA310/11803_Airplane_v1_l1.obj")  ));
+                                
 
     Window win;
     

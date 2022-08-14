@@ -53,6 +53,17 @@ class Shader : public Decorator
          */
         bool init();
 
+
+        /**
+         * @brief 
+         * 
+         * @param shaider 
+         * @param type 
+         * @return true 
+         * @return false 
+         */
+        bool check_shader_errors(GLuint shaider, std::string type);
+
 };
 
 
