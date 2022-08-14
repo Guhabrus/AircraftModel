@@ -65,6 +65,7 @@ GLuint Config::get_width(){
 void Config::setPathShader( GLchar* vertexPath,  GLchar* fragmentPath){
     this->getInstance()._vertexPath   = vertexPath;
     this->getInstance()._fragmentPath = fragmentPath;
+    getInstance().notify();
 }
 
 
@@ -80,6 +81,7 @@ GLchar* Config::getVertexPath(){
 
 void Config::setPathTexureImage(char* PathToImage){
     this->getInstance()._pathToTexureImage = PathToImage;
+    getInstance().notify();
 }
 
 
